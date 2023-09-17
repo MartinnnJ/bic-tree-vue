@@ -1,6 +1,6 @@
 <template>
-  <div class="subcategory">
-    <div class="subcategory__label" @click="this.isOpen = children ? !this.isOpen : false">
+  <div class="subcategory" :data-open="false">
+    <div class="subcategory__label" @click="toggleContent" ref="labelRef">
       <div class="subcategory__label--line" v-if="!first">
         <img src="../assets/line.png" alt="line">
       </div>
@@ -26,6 +26,8 @@
 </template>
 
 <script>
+import { ref, onMounted } from 'vue'
+
 export default {
   name: 'SubCategory',
   props: {
@@ -47,7 +49,7 @@ export default {
     },
     bicHierarchyConfig: {
       required: true,
-    }
+    },
   },
   data() {
     return {
@@ -55,6 +57,15 @@ export default {
     }
   },
   methods: {
+    toggleContent() {
+      this.isOpen = this.children ? !this.isOpen : false;
+      const subCategoryEl = this.$refs.labelRef.parentElement;
+      subCategoryEl.dataset.open = this.isOpen;
+      const allCurrOpenedSubCategories = Array.from(subCategoryEl.querySelectorAll('[data-open="true"]'));
+      for (const el of allCurrOpenedSubCategories) {
+        el.children[0].click()
+      }
+    },
     findValueById(obj, id) { // { 'A': 1212, 'B': 78541, 'C': 3654, ... }, A
       if (obj === null) return null;
       for (const key in obj) {
@@ -63,6 +74,15 @@ export default {
         }
       }
     }
+  },
+  setup() {
+    const labelRef = ref();
+
+    onMounted(() => {
+      console.log('SubCategory has been mounted');
+    })
+
+    return { labelRef }
   }
 }
 </script>

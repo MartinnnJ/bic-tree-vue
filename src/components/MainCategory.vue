@@ -1,6 +1,6 @@
 <template>
-  <div class="category">
-    <div class="category__label" @click="this.isOpen = !this.isOpen">
+  <div class="category" :data-open="false">
+    <div class="category__label" @click="toggleContent" ref="labelRef">
       <div class="category__label--title">{{ title }}</div>
       <div class="category__label--arrow" :class="isOpen ? 'rotate' : ''">
         <img src="../assets/main-arrow.png" alt="main-arrow">
@@ -21,6 +21,7 @@
 </template>
 
 <script>
+import { ref, onMounted } from 'vue'
 import SubCategory from './SubCategory.vue'
 
 export default {
@@ -42,15 +43,32 @@ export default {
       required: true,
     }
   },
-  // setup(props) {
-  //   console.log(props.bicHierarchyConfig)
-  // },
   components: { SubCategory },
   data() {
     return {
       isOpen: false,
     }
-  }
+  },
+  methods: {
+    toggleContent() {
+      this.isOpen = !this.isOpen;
+      const subCategoryEl = this.$refs.labelRef.parentElement;
+      subCategoryEl.dataset.open = this.isOpen;
+      const allCurrOpenedSubCategories = Array.from(subCategoryEl.querySelectorAll('[data-open="true"]'));
+      for (const el of allCurrOpenedSubCategories) {
+        el.children[0].click()
+      }
+    }
+  },
+  setup() {
+    const labelRef = ref();
+
+    onMounted(() => {
+      console.log('MainCategory has been mounted');
+    })
+
+    return { labelRef }
+  },
 }
 </script>
 
