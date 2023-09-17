@@ -1,5 +1,5 @@
 <template>
-  <div class="category" :data-open="false">
+  <div class="category" :data-open="false" :data-url="slug">
     <div class="category__label" @click="toggleContent" ref="labelRef">
       <div class="category__label--title">{{ title }}</div>
       <div class="category__label--arrow" :class="isOpen ? 'rotate' : ''">
@@ -12,6 +12,7 @@
         :key="subc.id"
         :id="subc.id"
         :title="subc.title"
+        :slug="subc.slug"
         :children="subc.children"
         :first="true"
         :bicHierarchyConfig="bicHierarchyConfig"
@@ -34,6 +35,10 @@ export default {
     title: {
       type: String,
       required: true,
+    },
+    slug: {
+      type: String,
+      required: true
     },
     bicHierarchy: {
       type: Array,
@@ -58,7 +63,7 @@ export default {
       for (const el of allCurrOpenedSubCategories) {
         el.children[0].click()
       }
-    }
+    },
   },
   setup() {
     const labelRef = ref();

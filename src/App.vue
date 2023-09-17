@@ -1,19 +1,21 @@
 <template>
   <WrapperSlot>
-    <!-- <MainCategory
+    <MainCategory
       v-for="lang in treeData.hierarchy"
       :key="lang.id"
       :id="lang.id"
       :title="lang.title"
+      :slug="lang.slug"
       :bicHierarchy="treeData.bicHierarchy"
       :bicHierarchyConfig="hasInputData(lang.id)"
-    /> -->
-    <MainCategory
+    />
+    <!-- <MainCategory
       :id="1"
       title="English"
+      slug="english"
       :bicHierarchy="treeData.bicHierarchy"
       :bicHierarchyConfig="hasInputData(1)"
-    />
+    /> -->
   </WrapperSlot>
 </template>
 
@@ -22,11 +24,13 @@ import WrapperSlot from './components/UI/WrapperSlot.vue'
 import MainCategory from './components/MainCategory.vue'
 
 import treeData from './data/init.json'
+// import configData from './data/ag.json'
 // import configData from './data/ag-c-1.json'
-import configData from './data/ag-c-1-b-AFJ.json'
+// import configData from './data/ag-c-1-b-AFJ.json'
+import configData from './data/ag-c-24-b-KF.json'
 
-console.log(treeData)
-console.log(configData)
+// console.log(treeData)
+// console.log(configData)
 
 export default {
   name: 'App',

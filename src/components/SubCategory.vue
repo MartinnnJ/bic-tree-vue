@@ -1,5 +1,5 @@
 <template>
-  <div class="subcategory" :data-open="false">
+  <div class="subcategory" :data-open="false" :data-url="children && slug">
     <div class="subcategory__label" @click="toggleContent" ref="labelRef">
       <div class="subcategory__label--line" v-if="!first">
         <img src="../assets/line.png" alt="line">
@@ -9,7 +9,7 @@
       </div>
       <div class="subcategory__label--title" :class="[!children && 'mgl-2', isOpen && 'bold']">
         {{ title }}
-        <small>{{ findValueById(bicHierarchyConfig.aggregations.bic, id) }}</small>
+        <small>{{ bicHierarchyConfig && findValueById(bicHierarchyConfig.aggregations.bic, id) }}</small>
       </div>
     </div>
     <div class="subcategory__content" :class="isOpen ? '' : 'hide'" :style="!first ? { marginLeft: '1.6rem' } : {}">
@@ -18,6 +18,7 @@
         :key="subc.id"
         :id="subc.id"
         :title="subc.title"
+        :slug="subc.slug"
         :children="subc.children"
         :bicHierarchyConfig="bicHierarchyConfig"
       />
@@ -38,6 +39,10 @@ export default {
     title: {
       type: String,
       required: true,
+    },
+    slug: {
+      type: String,
+      required: true
     },
     children: {
       required: false,
